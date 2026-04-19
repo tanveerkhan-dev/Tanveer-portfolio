@@ -3,7 +3,7 @@ import {motion, useScroll, AnimatePresence, useMotionValueEvent,} from "framer-m
 
 import img1 from "../assets/Todo.png";
 import img2 from "../assets/lottery.png";
-import img3 from "../assets/calculator.png";
+import img3 from "../assets/Calculator.png";
 import img4 from "../assets/weather.png";
 import photo1 from "../assets/photo1.png";
 import photo2 from "../assets/photo 2.png";
