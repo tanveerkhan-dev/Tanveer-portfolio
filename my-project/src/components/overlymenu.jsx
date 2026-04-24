@@ -11,7 +11,7 @@ export default function Overlymenu({ isOpen, onClose }) {
     { name: "Skills", path: "/skill" },
     { name: "Projects", path: "/project" },
     { name: "Experience", path: "/experience" },
-       { name: "Testonomial", path: "/testonomial" },
+       { name: "Testimonials", path: "/testonomial" },
     { name: "Contact", path: "/contact" },
   
   ];
