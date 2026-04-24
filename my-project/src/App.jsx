@@ -11,7 +11,7 @@ import Experience from "./section/experience";
 import { Link, Navigate, Route, Routes } from "react-router";
 import All from "./section/all";
 import NotFound from "./section/notfound";
-
+import  Testimonials from "./section/Testonomials";
 const App = () => {
   return (
     <>
@@ -24,6 +24,7 @@ const App = () => {
               <Route path="/skill" element={<Skill/>}/>
                 <Route path="/experience" element={<Experience/>}/>
                  <Route path="/project" element={<Project />} />
+                    <Route path="/testimonials" element={<Testimonials/>}/>
                     <Route path="/contact" element={<Contact/>}/>
                     <Route path="/footer" element={<Footer/>}/>
                     <Route path="*" element={<NotFound/>}  />

@@ -1,99 +1,109 @@
-
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion, useAnimation } from "framer-motion";
 
 export default function Experience() {
-  const dragRef = useRef(null); 
-  const [dotY, setDotY] = useState(0);
-
-  const leftControls = useAnimation();
-  const rightControls = useAnimation();
+  const dragRef = useRef(null);
 
   const experienceData = [
     {
       id: 1,
-      title: "React Developer",
+      title: "Frontend & WordPress Developer",
       company: "DigiFlon",
-      duration: "2025 — Present",
-      desc: "I am a Front-End Developer specializing in React and modern web technologies, creating responsive, high-performance, and visually engaging web applications with clean, maintainable code.",
-      skills: ["Next.js","Redux ToolKit","React", "Framer-Motion", "Tailwind CSS", "HTML","CSS","Bootstrap"],
+      duration: "Feb 2025 — Oct 2025",
+      desc: "Worked as a Frontend and WordPress Developer, building responsive and modern web interfaces using React and Tailwind CSS.",
+      skills: ["HTML","CSS","Tailwind","React","WordPress","SEO"],
       side: "left",
     },
     {
       id: 2,
-      title: "WordPress Developer",
-      company: "DigiFlon",
-      duration: "2025",
-      desc: "WordPress Developer creating complete e-commerce stores using Elementor, handling full setup, customization, and SEO optimization for high-performing websites.",
-      skills: ["WordPress", "Elementor", "SEO"],
+      title: "Full Stack (MERN) Developer",
+      company: "Vital AIMS High Tech Solution",
+      duration: "Nov 2025 — Apr 2026",
+      desc: "Developed full-stack apps using MERN stack with Firebase, dashboards, JWT auth and CRUD systems.",
+      skills: ["MongoDB","Express","React","Node","Firebase","JWT"],
       side: "right",
     },
   ];
 
-  const handleDotMove = (deltaY) => {
-    setDotY((prev) => {
-      const newY = Math.min(Math.max(prev + deltaY, -100), 100); 
-      leftControls.start({ y: newY * 0.4 });
-      rightControls.start({ y: newY * -0.4 });
-      return newY;
-    });
-  };
-
   return (
-    <section className="relative w-full h-auto bg-black
-            text-white py-24 px-20">
-      <h2 className="text-4xl font-bold text-center mb-24">Experience</h2>
+  <section className="relative w-full min-h-screen bg-white text-gray-900 dark:bg-black dark:text-white py-24 px-6 md:px-20">
 
-   
-      <div
-        ref={dragRef}
-        className=" hidden  sm:block md:block lg:block absolute left-1/2 top-48 bottom-28 w-[2px] h-[450px] bg-green-100"
-      ></div>
+  <h2 className="text-4xl font-bold text-center mb-24 text-gray-900 dark:text-white">
+    Experience
+  </h2>
 
-     
+  {/* CENTER LINE */}
+  <div
+    ref={dragRef}
+    className="hidden sm:block absolute left-1/2 top-48 bottom-28 w-[2px] bg-green-400/40"
+  />
+
+  {/* CARDS */}
+  <div
+    className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10 mt-10"
+    style={{ perspective: "1000px" }}
+  >
+    {experienceData.map((item) => (
       <motion.div
-        drag="y"
-        dragConstraints={dragRef}
-        dragElastic={0.2}
-        onDrag={(e, info) => handleDotMove(info.delta.y)}
-        className=" hidden  sm:block md:block lg:block absolute left-1/2 top-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-gradient-to-r from-green-300 to-blue-300 shadow-lg"
-        style={{ y: dotY }}
-        whileHover={{ scale: 1.3, boxShadow: "0 0 20px #00ffd2" }}
-        whileTap={{ scale: 0.9 }}
-      />
+        key={item.id}
 
-   
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-25 mt-10">
-        {experienceData.map((item) => (
-          <motion.div
-            key={item.id}
-            animate={item.side === "left" ? leftControls : rightControls}
-            initial={{ y: 0 }}
-            className="bg-white/10 text-white border border-green-200 rounded-xl p-6 backdrop-blur-md
-              min-h-[280px] flex flex-col justify-between"
-          >
-            <div>
-              <h3 className="text-2xl font-semibold">{item.title}</h3>
-              <p className="text-white">{item.company}</p>
-              <p className="text-white">{item.duration}</p>
-              <p className="mt-3 text-white">{item.desc}</p>
-            </div>
+        initial={{ rotateY: 180, opacity: 0 }}
+        animate={{ rotateY: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
 
-            <div className="mt-5 flex flex-wrap gap-2">
-              {item.skills.map((skill, index) => (
-                <span
-                  key={index}
-                  className="px-6 py-3 bg-gray-500 text-white text-sm rounded-full border border-green-400"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
+        whileHover={{
+          rotateY: item.side === "left" ? 8 : -8,
+          rotateX: 6,
+          scale: 1.05,
+        }}
+
+        className="relative bg-gray-100 dark:bg-black border border-gray-200 dark:border-green-400/40 rounded-2xl p-6
+        min-h-[280px] flex flex-col justify-between
+        shadow-[0_10px_30px_rgba(0,255,200,0.15)]
+        hover:shadow-[0_20px_60px_rgba(0,255,200,0.4)]"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+
+        {/* CONTENT */}
+        <div style={{ transform: "translateZ(40px)" }}>
+
+          <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            {item.title}
+          </h3>
+
+          <p className="text-gray-700 dark:text-gray-300">
+            {item.company}
+          </p>
+
+          <p className="text-gray-500 dark:text-gray-400">
+            {item.duration}
+          </p>
+
+          <p className="mt-3 text-gray-700 dark:text-gray-300">
+            {item.desc}
+          </p>
+
+        </div>
+
+        {/* SKILLS */}
+        <div
+          className="mt-5 flex flex-wrap gap-2"
+          style={{ transform: "translateZ(30px)" }}
+        >
+          {item.skills.map((skill, index) => (
+            <span
+              key={index}
+              className="px-4 py-2 bg-white dark:bg-black border border-green-400/40 text-sm rounded-full text-gray-900 dark:text-white"
+            >
+              {skill}
+            </span>
+          ))}
+        </div>
+
+      </motion.div>
+    ))}
+  </div>
+
+</section>
   );
 }
-
-

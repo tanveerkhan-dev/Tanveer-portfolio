@@ -9,6 +9,7 @@ import Project from "./project";
 import Experience from "./experience";
 import Footer from "./footer";
 import { useState } from "react";
+import Testimonials from "./Testonomials";
 
 export default function All() {
      const [introdone, setintrodone] = useState(false);
@@ -23,6 +24,7 @@ export default function All() {
 <Skill />
 <Project />
 <Experience />
+<Testimonials/>
 <Contact />
 <Footer />
 

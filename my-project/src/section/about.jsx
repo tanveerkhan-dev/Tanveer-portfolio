@@ -1,124 +1,152 @@
 import { motion } from "framer-motion";
 import React from "react";
+  import { Link } from "react-router";
 import profile from "../assets/Tanveer.png";
-import { Link } from "react-router";
+import { FaCode, FaServer, FaWordpress, FaPaintBrush } from "react-icons/fa";
 
 export default function About() {
-  const status = [
-    { label: "Experience", value: "4 Months" },
-    { label: "Spaciality", value: " Front End" },
-    { label: "Focus", value: " Performance & UI" },
+
+  const services = [
+    { icon: <FaCode />, title: "Frontend", desc: "React, Next.js, Tailwind" },
+    { icon: <FaServer />, title: "Backend", desc: "Node.js, Express, MongoDB" },
+    { icon: <FaWordpress />, title: "WordPress", desc: "Elementor, WooCommerce" },
+    { icon: <FaPaintBrush />, title: "UI/UX", desc: "Modern clean design" },
   ];
 
-  const glows = [
-    "-top-10 left-10 w-[360px] h-[360px] opacity-20 blur-[120px]",
-    "bottom-0 right-10 h-[420px] w-[420px] opacity-15 blur-[140px] delay-300",
-    "top-1/2  left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 blur-[100px] w-[220px] h-[220px]",
+  const techStack = [
+    "HTML", "CSS", "JavaScript", "React",
+    "Next.js", "Node.js", "Express",
+    "MongoDB", "Redux", "Tailwind", "WordPress"
   ];
+
   return (
-    <section
-      id="about"
-      className="  relative min-h-screen w-full flex items-center justify-center bg-black text-white overflow-hidden px-20"
+<section
+  id="about"
+  className="w-full min-h-screen relative bg-white text-gray-900 dark:bg-black dark:text-white overflow-hidden px-6 sm:px-10 lg:px-20 py-16 sm:py-20"
+>
+  <div className="relative z-10 w-full max-w-7xl mx-auto px-2 sm:px-4 grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 items-center">
+
+    {/* LEFT IMAGE */}
+    <motion.div
+      className="flex justify-center lg:justify-start"
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
     >
-      <div className=" absolute inset-0 pointer-events-none">
-        {glows.map((c, i) => (
-          <div
+      <div
+        className="
+          w-[240px] h-[320px]
+          sm:w-[300px] sm:h-[400px]
+          md:w-[340px] md:h-[460px]
+          lg:w-[480px] lg:h-[590px]
+          rounded-2xl overflow-hidden
+          border-2 border-[#4bbd97]
+          bg-gray-200 dark:bg-[#767578]
+          shadow-lg
+          hover:shadow-[0_0_40px_rgba(75,189,151,0.5)]
+          transition-all
+        "
+      >
+        <img
+          src={profile}
+          alt="profile"
+          className="w-full h-full object-cover"
+        />
+      </div>
+    </motion.div>
+
+    {/* RIGHT CONTENT */}
+    <div className="flex flex-col justify-center text-left">
+
+      {/* TITLE */}
+      <motion.h2
+        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 dark:text-white"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+      >
+        About Me
+      </motion.h2>
+
+      {/* PARAGRAPH 1 */}
+      <p className="mt-6 text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-full sm:max-w-2xl">
+        I am a Full Stack Developer focused on building scalable web applications
+        with clean UI and strong backend systems.
+      </p>
+
+      {/* PARAGRAPH 2 */}
+      <p className="mt-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed max-w-full sm:max-w-2xl">
+        I specialize in performance, scalability, and modern web technologies
+        to deliver smooth user experiences.
+      </p>
+
+      {/* WHAT I DO */}
+      <h3 className="mt-8 text-lg sm:text-xl font-semibold text-[#4bbd97]">
+        What I Do
+      </h3>
+
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        {services.map((item, i) => (
+          <motion.div
             key={i}
-            className={` absolute rounded-full bg-gradient-to-r from-[#63382b]  via-[#00bf8f] to-[#1cd2d8] animate-pulse ${c}`}
-          />
+            whileHover={{ y: -6 }}
+            className="p-4 rounded-xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:border-[#4bbd97] hover:shadow-[0_0_20px_rgba(75,189,151,0.3)] transition"
+          >
+            <div className="flex items-center gap-2 text-[#4bbd97]">
+              {item.icon}
+              <span className="text-gray-900 dark:text-white font-semibold text-sm">
+                {item.title}
+              </span>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
+              {item.desc}
+            </p>
+          </motion.div>
+        ))}
+
+      </div>
+
+      {/* TECH STACK */}
+      <h3 className="mt-8 text-lg sm:text-xl font-semibold text-[#4bbd97]">
+        Tech Stack
+      </h3>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        {techStack.map((tech, i) => (
+          <span
+            key={i}
+            className="px-3 py-1 text-xs sm:text-sm rounded-full border border-[#4bbd97] text-[#4bbd97]"
+          >
+            {tech}
+          </span>
         ))}
       </div>
 
-      <div className=" relative z-[10] mx-w-6xl w-full mx-auto px-6 md:px-10 lg:px-12 py-20 flex flex-col gap-12">
-        <motion.div
-          className=" flex flex-col md:flex-row items-center md:items-stretch gap-8"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true, amount: 0.4 }}
+      {/* BUTTONS */}
+      <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-start">
+
+        <Link
+          to="/contact"
+          className="px-6 py-3 rounded-lg bg-[#4bbd97] text-black font-semibold hover:shadow-lg transition inline-block"
         >
-          <motion.div
-            className=" relative w-[160px] h-[160px] md:w-[200px] md:h-[200px] 
-rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-r from-[#302b63]  via-[#00bf8f] to-[#1cd2d8]
-"
-          >
-            <img src={profile} alt="profile" className=" absolute inset-0" />
-          </motion.div>
+          Let's Work Together
+        </Link>
 
-          <div className=" flex-1 flex-col flex justify-center text-center md:text-left">
-            <h2
-              className=" mb-10 text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent
-  bg-gradient-to-r from-[#1cd2d8]  via-[#1cd2d8] to-[#1cd2d8]
-  "
-            >
-              Tanveer
-            </h2>
-            <p className=" mt-2 text-xl sm:text-lg  text-white/90 font-semibold">
-              React Devolper
-            </p>
-
-            <p className="   mt-4 text-gray-300 leading-relaxed text-base sm:text-lg max-w-2xl md:max-w-3xl:">
-              I am a front-end developer specializing in React and Framer
-              Motion. I create modern, responsive, and visually engaging web
-              experiences with smooth animations, clean UI, and high
-              performance. My focus is delivering fast, user-friendly interfaces
-              that feel polished and professional.
-            </p>
-
-            <div className=" mt-6  grid grid-cols-1  sm:grid-cols-2 gap-3 sm:gap-4 w-full max-w-xl ">
-              {status.map((items, i) => (
-                <motion.div
-                  key={i}
-                  className="rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-center  "
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.05 * i }}
-                  viewport={{ once: true, amount: 0.3 }}
-                >
-                  <div className="text-sm text-gray-500">{items.label}</div>
-                  <div className="font-bold">{items.value}</div>
-                </motion.div>
-              ))}
-            </div>
-           
-
-            <div className=" mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start">
-              <Link
-               to="/project"
-                className=" inline-flex rounded-lg justify-center items-center bg-white text-black font-semibold px-5 py-3 hover:bg-gray-200 transition"
-              >
-                View projects
-              </Link>
-              <Link
-                to="/contact"
-                className=" inline-flex rounded-lg justify-center items-center border-white/20 bg-white/10 text-white  px-5 py-3 hover:bg-white/20 transition"
-              >
-                Get In Touch
-              </Link>
-            </div>
-          </div>
-        </motion.div>
-        <motion.div
-          className="text-center md:text-left"
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true, amount: 0.4 }}
+        <button
+          onClick={() => {
+            const link = document.createElement("a");
+            link.href = "/Tanveer-Khan-Resume.pdf";
+            link.download = "Tanveer-Khan-Resume.pdf";
+            link.click();
+          }}
+          className="px-6 py-3 rounded-lg border border-[#4bbd97] text-[#4bbd97] hover:bg-[#4bbd97] hover:text-black transition"
         >
-          <h3 className=" text-2xl sm:text-3xl font-bold text-white mb-3">
-            About Me
-          </h3>
-          <p className=" text-gray-300 leading-relaxed  text-base sm:text-lg">
-            I am a front-end developer specializing in React and Framer Motion.{" "}
-            <br />I create fast, modern, and animated web interfaces that are
-            both responsive and visually engaging.
-          </p>
-          <p className=" mt-4 text-gray-400   text-base sm:text-lg">
-            I build clean, responsive, and visually engaging user experiences
-            with smooth animations and high performance.
-          </p>
-        </motion.div>
+          Download CV
+        </button>
+
       </div>
-    </section>
+
+    </div>
+  </div>
+</section>
   );
 }

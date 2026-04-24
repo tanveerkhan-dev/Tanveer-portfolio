@@ -1,181 +1,160 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import {motion, useScroll, AnimatePresence, useMotionValueEvent,} from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { FaGithub } from "react-icons/fa";
 
 import img1 from "../assets/Todo.png";
 import img2 from "../assets/lottery.png";
 import img3 from "../assets/Calculator.png";
 import img4 from "../assets/weather.png";
-import photo1 from "../assets/photo1.png";
-import photo2 from "../assets/photo 2.png";
-import photo3 from "../assets/photo3.png";
-import photo4 from "../assets/photo4.png";
-
-const useIsmobile = (query = "(max-width:639px)") => {
-  const [mobile, setMobile] = useState(
-    typeof window !== "undefined" && window.matchMedia(query).matches
-  );
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mql = window.matchMedia(query);
-    const handler = (e) => setMobile(e.matches);
-
-    mql.addEventListener("change", handler);
-    setMobile(mql.matches);
-    return () => mql.removeEventListener("change", handler);
-  }, [query]);
-
-  return mobile;
-};
 
 export default function Project() {
-  const mobile = useIsmobile();
-  const scanserf = useRef(null);
+  const [showAll, setShowAll] = useState(false);
 
-  const project = useMemo(
-    () => [
-      {
-        id: "todo-app",
-        title: "Github.com",
-        link: "https://github.com/Tanveer-react/Todo-App",
-        bgColor: "#f5e6cc",
-        image: mobile ? photo1 : img1,
-      },
-      {
-        id: "Lottery-Game",
-        title: "Github.com",
-        link: "https://github.com/Tanveer-react/Lottery-Game",
-        bgColor: "#3b82f6",
-        image: mobile ? photo2 : img2,
-      },
-      {
-        id: "scientific-calculator",
-        title: "Github.com",
-        link: "https://github.com/Tanveer-react/react-scientific-calculator",
-        bgColor: "#f5e6cc",
-        image: mobile ? photo3 : img3,
-      },
-      {
-        id: "Weather-App",
-        title: "Github.com",
-        link: "https://github.com/Tanveer-react/Weather-App",
-        bgColor: "#4a6c8c",
-        image: mobile ? photo4 : img4,
-      },
-    ],
-    [mobile]
-  );
+const projects = [
+  {
+    title: "Todo App",
+    desc: "A task management application with full CRUD operations, local storage support, and smooth UI for daily productivity tracking.",
+    tech: ["React", "LocalStorage", "Tailwind"],
+    link: "https://github.com/Tanveer-react/Todo-App",
+    live: "https://your-todo.vercel.app",
+    img: img1,
+  },
+  {
+    title: "Lottery Game",
+    desc: "An interactive lottery game built with React, featuring random logic generation, simple UI, and engaging user experience.",
+    tech: ["React", "JavaScript", "State"],
+    link: "https://github.com/Tanveer-react/Lottery-Game",
+    live: "https://your-lottery.vercel.app",
+    img: img2,
+  },
+  {
+    title: "Calculator",
+    desc: "A scientific calculator with advanced mathematical operations, clean UI design, and real-time calculation support.",
+    tech: ["React", "Math Logic", "UI"],
+    link: "https://github.com/Tanveer-react/react-scientific-calculator",
+    live: "https://your-calculator.vercel.app",
+    img: img3,
+  },
+  {
+    title: "Weather App",
+    desc: "A real-time weather forecasting app using API integration, displaying temperature, conditions, and location-based data.",
+    tech: ["API", "React", "Fetch"],
+    link: "https://github.com/Tanveer-react/Weather-App",
+    live: "https://your-weather.vercel.app",
+    img: img4,
+  },
+];
 
-  const { scrollYProgress } = useScroll({
-    target: scanserf,
-    offset: ["start start", "end end"],
-  });
-
-  const thresholds = project.map((_, i) => (i + 1) / project.length);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const idx = thresholds.findIndex((t) => v <= t);
-    setActiveIndex(idx === -1 ? thresholds.length - 1 : idx);
-  });
-
-  const activeProject = project[activeIndex];
+  const visibleProjects = showAll ? projects : projects.slice(0, 3);
 
   return (
-    <section
-      id="project"
-      ref={scanserf}
-      className="relative py-16 text-white"
-      style={{
-        height: `${100 * project.length}vh`,
-        backgroundColor: activeProject.bgColor,
-        transition: "background-color 400ms ease",
-      }}
-    >
-      <div className="sticky top-0  flex flex-col items-center justify-center h-screen">
-        <h2
-          className={`text-3xl font-semibold z-10 text-center ${
-            mobile ? "-mt-4" : ""
-          }`}
-        >
-          My work
-        </h2>
-        <div
-          className={`reative w-full flex flex-1 items-center justify-center  ${
-            mobile ? "-mt-4" : ""
-          }`}
-        >
-          {project.map((proj, idx) => (
-            <div
-              key={proj.id}
-              className={` absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ${
-                activeIndex === idx
-                  ? "opacity-100 z-10"
-                  : "opacity-0 z-0 sm:z-10"
-              }`}
-              style={{ width: "85%", maxWidth: "1200px" }}
-            >
-              <AnimatePresence mode="wait">
-                {activeIndex === idx && (
-                  <motion.h3
-                    key={proj.title}
-                    initial={{ opacity: 0, y: -30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 30 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className={`block text-center text-white/95 text-[clamp(2rem,6vw,5rem)] sm:absolute  sm:-top-20 sm:left-[35%] lg:left-[-5%] italic font-semibold ${
-                      mobile ? "relative mt-24 " : ""
-                    }`}
-                    style={{
-                      zIndex: 5,
-                      textAlign: mobile ? "center" : "left",
-                    }}
-                  >
-                    {proj.title}
-                  </motion.h3>
-                )}
-              </AnimatePresence>
+   <section className="w-full min-h-screen bg-white text-gray-900 dark:bg-black dark:text-white px-6 sm:px-10 lg:px-20 py-20">
 
-              <div
-                className={`relative overflow-hidden w-full max-w-5xl   h-screen bg-black/20 shadow-2xl 
-              md:shadow-[0_35px_60px_-15px_rgba(0,0,0,0.7)]  sm:h-[66vh]
-               ${mobile ? "mb-6  rounded-lg" : "mb-10 sm:mb-12 rounded-xl"} `}
-                style={{ zIndex: 10, transition: "box-shadow 250ms ease" }}
-              >
-                <img
-                  src={proj.image}
-                  alt={proj.title}
-                  className=" absolute top-0  left-0 w-full h-full object-cover "
-                  style={{
-                    filter: "drop-shadow(0 16px 40px rgba(0,0,0,0.65))",
-                    transition: "filter 200ms ease",
-                  }}
-                  loading="lazy"
-                />
-                <div
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    zIndex: 11,
-                    background:
-                      "linear-gradient(180deg,rgba(0,0,0,0.12),rgba(0,0,0,0) 48%)",
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className={`absolute ${mobile ? "bottom-20" : "bottom-10"}`}>
+  {/* HEADER */}
+  <div className="max-w-7xl mx-auto mb-14 text-center flex flex-col items-center">
+
+    <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">
+      My Projects
+    </h2>
+
+    <p className="text-gray-600 dark:text-gray-300 mt-3 max-w-xl">
+      A collection of my full-stack and frontend projects built with modern technologies.
+    </p>
+
+  </div>
+
+  {/* GRID */}
+  <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    {visibleProjects.map((p, i) => (
+      <div key={i} className="block">
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: i * 0.1 }}
+          className="group rounded-xl overflow-hidden border border-gray-200 dark:border-transparent 
+          hover:border-[#4bbd97] 
+          hover:shadow-[0_0_30px_rgba(75,189,151,0.5),inset_0_0_25px_rgba(35,125,59,0.8)] 
+          transition-all duration-300 cursor-pointer"
+        >
+
+          {/* TOP BAR */}
+          <div className="flex justify-between items-center px-4 py-4 bg-gray-100 dark:bg-[#0c0c12]">
+
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              {p.title}
+            </h3>
+
+            <a
+              href={p.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="text-gray-700 dark:text-white hover:text-[#4bbd97] text-lg"
+            >
+              <FaGithub />
+            </a>
+
+          </div>
+
+          {/* IMAGE */}
           <a
-            href={activeProject?.link}
-            target="blank"
+            href={p.live}
+            target="_blank"
             rel="noopener noreferrer"
-            className=" inline-block px-3 py-3 font-semibold  rounded-lg bg-white text-black hover:bg-gray-200 transition-all"
-            aria-label={` view ${activeProject}`}
           >
-            View projects
+            <div className="w-full h-[220px] overflow-hidden bg-gray-200 dark:bg-black">
+              <img
+                src={p.img}
+                alt={p.title}
+                className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+              />
+            </div>
           </a>
-        </div>
+
+          {/* BOTTOM */}
+          <div className="p-5 bg-gray-50 dark:bg-[#0c0c12] min-h-[180px] flex flex-col justify-between">
+
+            <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+              {p.desc}
+            </p>
+
+            <div className="flex flex-wrap gap-2 mt-4">
+              {p.tech.slice(0, 3).map((t, index) => (
+                <span
+                  key={index}
+                  className="text-xs px-2 py-1 border border-[#4bbd97] text-[#4bbd97] rounded-full"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+
+          </div>
+
+        </motion.div>
       </div>
-    </section>
+    ))}
+
+  </div>
+
+  {/* SHOW MORE */}
+  {projects.length > 3 && (
+    <div className="flex justify-center mt-14">
+      <button
+        onClick={() => setShowAll(!showAll)}
+        className="px-7 py-3 rounded-lg border border-[#4bbd97] 
+        text-[#4bbd97] font-medium 
+        hover:bg-[#4bbd97] hover:text-black 
+        hover:shadow-[0_0_20px_#4bbd97] 
+        transition-all duration-300"
+      >
+        {showAll ? "Show Less" : "Show More"}
+      </button>
+    </div>
+  )}
+
+</section>
   );
 }

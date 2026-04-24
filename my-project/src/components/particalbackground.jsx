@@ -7,24 +7,32 @@ const ParticleBackground = () => {
     const canvas = ref.current;
     const context = canvas.getContext("2d");
     let particles = [];
-    const particleCount = 40;
-    const colors = ["rgba(255,255,255,0.7)"];
+
+    // 🔥 INCREASED PARTICLES
+    const particleCount = 120;
+
+    const colors = ["rgba(255,255,255,0.6)"];
 
     class Particle {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.radius = Math.random() * 2 + 1;
+
+        // 🔥 SMALLER PARTICLES
+        this.radius = Math.random() * 1.2 + 0.3;
+
         this.color = colors[Math.floor(Math.random() * colors.length)];
-        this.speedx = (Math.random() - 0.5) * 0.5;
-        this.speedy = (Math.random() - 0.5) * 0.5;
+        this.speedx = (Math.random() - 0.5) * 0.4;
+        this.speedy = (Math.random() - 0.5) * 0.4;
       }
 
       draw() {
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        context.shadowBlur = 10;
+
+        context.shadowBlur = 6;
         context.shadowColor = this.color;
+
         context.fillStyle = this.color;
         context.fill();
       }
@@ -32,10 +40,12 @@ const ParticleBackground = () => {
       update() {
         this.x += this.speedx;
         this.y += this.speedy;
+
         if (this.x < 0) this.x = canvas.width;
         if (this.x > canvas.width) this.x = 0;
         if (this.y < 0) this.y = canvas.height;
         if (this.y > canvas.height) this.y = 0;
+
         this.draw();
       }
     }
@@ -57,6 +67,7 @@ const ParticleBackground = () => {
     window.addEventListener("resize", handleResize);
 
     let animationId;
+
     function animate() {
       context.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((p) => p.update());
@@ -74,8 +85,8 @@ const ParticleBackground = () => {
   return (
     <canvas
       ref={ref}
-      className="  absolute h-full w-full top-0 left-0 z-0 pointer-events-none"
-    ></canvas>
+      className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
+    />
   );
 };
 

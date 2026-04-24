@@ -3,15 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 
 export default function Intro({ onFinish }) {
   const greetings = useMemo(
-    () => [
-      "Hello",
-      "Hola",
-      "Bonjour",
-      "Ciao",
-      "Olá",
-      "مرحباً (Marhaban)",
-      "नमस्ते (Namaste)",
-    ],
+    () => ["Hello", "Hola", "Bonjour", "Ciao", "Olá", "مرحباً", "नमस्ते"],
     []
   );
 
@@ -19,30 +11,58 @@ export default function Intro({ onFinish }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    if (index < greetings.length - 1) {
-      const id = setInterval(() => setIndex((i) => i + 1), 1000);
-      return () => clearInterval(id);
-    } else {
-      const t = setTimeout(() => setVisible(false), 2000);
-      return () => clearTimeout(t);
-    }
-  }, [index, greetings.length]);
+    // reset on every page load (refresh)
+    setVisible(true);
+    setIndex(0);
+
+    const interval = setInterval(() => {
+      setIndex((prev) => {
+        if (prev === greetings.length - 1) {
+          clearInterval(interval);
+
+          setTimeout(() => {
+            setVisible(false);
+          }, 1000);
+
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, 800);
+
+    return () => clearInterval(interval);
+  }, [greetings.length]);
 
   return (
     <AnimatePresence onExitComplete={onFinish}>
       {visible && (
         <motion.div
-          className="inset-0 fixed z-[9999] flex items-center justify-center bg-black text-white overflow-hidden"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black text-white overflow-hidden"
           initial={{ y: 0 }}
-          exit={{ y: "-100%" }}
-          transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
+          exit={{
+            y: "-100%",
+            opacity: 0,
+            filter: "blur(10px)",
+          }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
+          {/* Glow background */}
+          <motion.div
+            className="absolute w-[400px] h-[400px] bg-green-400/20 rounded-full blur-3xl"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
+          />
+
+          {/* Text */}
           <motion.h1
             key={index}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            className="text-5xl md:text-7xl lg:text-8xl font-bold relative"
+            initial={{ opacity: 0, y: 40, scale: 0.9, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -30, scale: 1.1, filter: "blur(10px)" }}
             transition={{ duration: 0.5 }}
           >
             {greetings[index]}
