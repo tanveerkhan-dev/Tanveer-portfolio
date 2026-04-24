@@ -13,14 +13,14 @@ export default function Intro({ onFinish }) {
 useEffect(() => {
   const hasSeenIntro = sessionStorage.getItem("seenIntro");
 
-  // If already seen → never show again in this session
+
   if (hasSeenIntro) {
     setVisible(false);
     onFinish?.();
     return;
   }
 
-  // Mark as seen immediately (important)
+
   sessionStorage.setItem("seenIntro", "true");
 
   setVisible(true);
@@ -58,7 +58,7 @@ useEffect(() => {
           }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
-          {/* Glow background */}
+         
           <motion.div
             className="absolute w-[400px] h-[400px] bg-green-400/20 rounded-full blur-3xl"
             animate={{
@@ -68,7 +68,7 @@ useEffect(() => {
             transition={{ duration: 3, repeat: Infinity }}
           />
 
-          {/* Text */}
+    
           <motion.h1
             key={index}
             className="text-5xl md:text-7xl lg:text-8xl font-bold relative"

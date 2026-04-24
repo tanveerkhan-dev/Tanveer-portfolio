@@ -21,10 +21,10 @@ const Customcursor = () => {
         transition: "transform 0.08s linear",
       }}
     >
-      {/* Outer Ring */}
+     
       <div className="relative w-10 h-10 rounded-full border-2 border-[#4bbd97] flex items-center justify-center">
         
-        {/* Center Dot */}
+       
         <div className="w-2 h-2 bg-[#4bbd97] rounded-full" />
       </div>
     </div>
