@@ -68,52 +68,49 @@ export default function Navbar() {
   return (
     <>
 
-      <nav
-        className={`fixed top-0 left-0 w-full flex items-center px-6 py-4 z-50 transition-transform duration-300 ${
-          visibel ? "translate-y-0" : "-translate-y-full"
-        } 
-    bg-black dark:bg-white
-text-white dark:text-black backdrop-blur-md`}
-      >
+  <nav
+  className={`fixed top-0 left-0 w-full flex items-center px-4 sm:px-6 py-4 z-50 transition-transform duration-300 ${
+    visibel ? "translate-y-0" : "-translate-y-full"
+  } bg-black dark:bg-white text-white dark:text-black backdrop-blur-md`}
+>
+  
+  {/* LEFT */}
+  <div className="text-xl sm:text-2xl font-bold">
+    Tanveer
+  </div>
 
-        <div className="text-2xl font-bold text-white dark:text-black hidden sm:block">
-          Tanveer
-        </div>
+  {/* CENTER MENU */}
+  <div className="absolute left-1/2 transform -translate-x-1/2">
+    <button
+      onClick={() => setnavbaropen(true)}
+      className="text-2xl sm:text-3xl"
+    >
+      <FiMenu />
+    </button>
+  </div>
 
-       
-        <div className="absolute left-1/2 transform -translate-x-1/2">
-          <button
-            onClick={() => setnavbaropen(true)}
-            className="text-white dark:text-black text-3xl focus:outline-none"
-            aria-label="open-menu"
-          >
-            <FiMenu />
-          </button>
-        </div>
+  {/* RIGHT */}
+  <div className="ml-auto flex items-center gap-2 sm:gap-4">
+    
+    <button
+      onClick={() => setDarkMode(!darkMode)}
+      className="text-xl p-2 rounded-full border border-white/20 hover:border-green-400 transition"
+    >
+      {darkMode ? <FiSun /> : <FiMoon />}
+    </button>
 
-        {/* RIGHT SIDE */}
-        <div className="ml-auto hidden lg:flex items-center gap-4">
+    <Link
+      to="/contact"
+      className="px-3 sm:px-5 py-2 text-sm sm:text-base font-medium rounded-full
+      bg-gradient-to-r from-green-400 to-cyan-400 text-white
+      shadow-md hover:shadow-[0_0_20px_#4bbd97]
+      hover:scale-105 transition-all duration-300"
+    >
+      Reach Out
+    </Link>
 
-          {/* DARK / LIGHT TOGGLE */}
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="text-white dark:text-black text-xl p-2 rounded-full border border-white/20 hover:border-green-400 transition"
-          >
-            {darkMode ? <FiSun /> : <FiMoon />}
-          </button>
-
-          {/* 🔥 IMPROVED REACH OUT BUTTON */}
-          <Link
-            to="/contact"
-            className="px-5 py-2 font-medium rounded-full text-white
-            bg-gradient-to-r from-green-400 to-cyan-400
-            shadow-md hover:shadow-[0_0_20px_#4bbd97]
-            hover:scale-105 transition-all duration-300"
-          >
-            Reach Out
-          </Link>
-        </div>
-      </nav>
+  </div>
+</nav>
 
       <Overlymenu isOpen={navbaropen} onClose={() => setnavbaropen(false)} />
     </>

@@ -10,28 +10,40 @@ export default function Intro({ onFinish }) {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
-  useEffect(() => {
-    // reset on every page load (refresh)
-    setVisible(true);
-    setIndex(0);
+useEffect(() => {
+  const hasSeenIntro = sessionStorage.getItem("seenIntro");
 
-    const interval = setInterval(() => {
-      setIndex((prev) => {
-        if (prev === greetings.length - 1) {
-          clearInterval(interval);
+  // If already seen → never show again in this session
+  if (hasSeenIntro) {
+    setVisible(false);
+    onFinish?.();
+    return;
+  }
 
-          setTimeout(() => {
-            setVisible(false);
-          }, 1000);
+  // Mark as seen immediately (important)
+  sessionStorage.setItem("seenIntro", "true");
 
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, 800);
+  setVisible(true);
+  setIndex(0);
 
-    return () => clearInterval(interval);
-  }, [greetings.length]);
+  const interval = setInterval(() => {
+    setIndex((prev) => {
+      if (prev === greetings.length - 1) {
+        clearInterval(interval);
+
+        setTimeout(() => {
+          setVisible(false);
+          onFinish?.();
+        }, 1000);
+
+        return prev;
+      }
+      return prev + 1;
+    });
+  }, 800);
+
+  return () => clearInterval(interval);
+}, []);
 
   return (
     <AnimatePresence onExitComplete={onFinish}>
