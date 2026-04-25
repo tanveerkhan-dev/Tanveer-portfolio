@@ -74,12 +74,12 @@ export default function Navbar() {
   } bg-black dark:bg-white text-white dark:text-black backdrop-blur-md`}
 >
   
-  {/* LEFT */}
+
   <div className="text-xl sm:text-2xl font-bold">
     Tanveer
   </div>
 
-  {/* CENTER MENU */}
+
   <div className="absolute left-1/2 transform -translate-x-1/2">
     <button
       onClick={() => setnavbaropen(true)}
@@ -89,7 +89,7 @@ export default function Navbar() {
     </button>
   </div>
 
-  {/* RIGHT */}
+
   <div className="ml-auto flex items-center gap-2 sm:gap-4">
     
     <button

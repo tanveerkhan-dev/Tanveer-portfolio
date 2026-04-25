@@ -54,10 +54,10 @@ export default function About() {
       </div>
     </motion.div>
 
-    {/* RIGHT CONTENT */}
+  
     <div className="flex flex-col justify-center text-left">
 
-      {/* TITLE */}
+   
       <motion.h2
         className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 dark:text-white"
         initial={{ opacity: 0, y: 20 }}
@@ -66,19 +66,19 @@ export default function About() {
         About Me
       </motion.h2>
 
-      {/* PARAGRAPH 1 */}
+   
       <p className="mt-6 text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-full sm:max-w-2xl">
         I am a Full Stack Developer focused on building scalable web applications
         with clean UI and strong backend systems.
       </p>
 
-      {/* PARAGRAPH 2 */}
+   
       <p className="mt-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed max-w-full sm:max-w-2xl">
         I specialize in performance, scalability, and modern web technologies
         to deliver smooth user experiences.
       </p>
 
-      {/* WHAT I DO */}
+  
       <h3 className="mt-8 text-lg sm:text-xl font-semibold text-[#4bbd97]">
         What I Do
       </h3>
@@ -105,7 +105,7 @@ export default function About() {
 
       </div>
 
-      {/* TECH STACK */}
+   
       <h3 className="mt-8 text-lg sm:text-xl font-semibold text-[#4bbd97]">
         Tech Stack
       </h3>
@@ -121,7 +121,7 @@ export default function About() {
         ))}
       </div>
 
-      {/* BUTTONS */}
+    
       <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-start">
 
         <Link

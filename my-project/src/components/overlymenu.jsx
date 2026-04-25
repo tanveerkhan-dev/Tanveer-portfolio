@@ -11,9 +11,8 @@ export default function Overlymenu({ isOpen, onClose }) {
     { name: "Skills", path: "/skill" },
     { name: "Projects", path: "/project" },
     { name: "Experience", path: "/experience" },
-       { name: "Testimonials", path: "/testonomial" },
+    { name: "Testimonials", path: "/testimonials" },
     { name: "Contact", path: "/contact" },
-  
   ];
   return (
     <AnimatePresence>
@@ -42,8 +41,7 @@ export default function Overlymenu({ isOpen, onClose }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 + idex * 0.1 }}
               >
-              
-                 <Link
+                <Link
                   to={items.path}
                   onClick={onClose}
                   className="text-4xl text-white font-semibold hover:text-pink-400 transition-colors duration-300"

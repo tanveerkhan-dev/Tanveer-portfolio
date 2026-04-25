@@ -8,7 +8,7 @@ const ParticleBackground = () => {
     const context = canvas.getContext("2d");
     let particles = [];
 
-    // 🔥 INCREASED PARTICLES
+  
     const particleCount = 120;
 
     const colors = ["rgba(255,255,255,0.6)"];
@@ -18,7 +18,7 @@ const ParticleBackground = () => {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
 
-        // 🔥 SMALLER PARTICLES
+      
         this.radius = Math.random() * 1.2 + 0.3;
 
         this.color = colors[Math.floor(Math.random() * colors.length)];

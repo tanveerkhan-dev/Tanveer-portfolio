@@ -1,17 +1,22 @@
-import { useState } from "react";
-import emailjs from "@emailjs/browser";
 import ParticleBackground from "../components/particalbackground";
 import { motion } from "framer-motion";
 import { FaLocationDot } from "react-icons/fa6";
 import { CgMail } from "react-icons/cg";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 import { FaPaperPlane } from "react-icons/fa";
+import { signInWithGoogle } from "../services/auth";
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 
-const SERVICE_ID = import.meta.env.VITE_SERVICE_ID;
-const TEMPLATE_ID = import.meta.env.VITE_TEMPLATE_ID;
-const PUBLIC_KEY = import.meta.env.VITE_PUBLIC_ID;
+
 
 export default function Contact() {
+
+  const [formData, setFormData] = useState({
+  name: "",
+  service: "",
+  message: "",
+});
   const social = [
     {
       icon: FaLinkedin,
@@ -25,33 +30,65 @@ export default function Contact() {
     },
   ];
 
-  const [formData, setFormData] = useState({
-    name: "",
-    Email: "",
-    service: "",
-    Budget: "",
-    Idea: "",
-  });
+const [user, setUser] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+
+
+  // ✅ GET USER SESSION
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user || null);
+    });
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user || null);
+      }
+    );
+
+    return () => listener.subscription.unsubscribe();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await emailjs.send(
-      SERVICE_ID,
-      TEMPLATE_ID,
+    if (!user) {
+      return alert("Please login with Google first ❌");
+    }
+
+    const { error } = await supabase.from("messages").insert([
       {
-        ...formData,
-        form_name: formData.name,
-        reply_to: formData.Email,
+        name: formData.name,
+        email: user.email,
+        service: formData.service,
+        message: formData.message,
       },
-      PUBLIC_KEY
-    );
+    ]);
+
+    if (error) {
+      console.log(error);
+      return alert("Error sending message ❌");
+    }
+
+    alert("Message sent successfully ✅");
+
+    setFormData({
+      name: "",
+      service: "",
+      message: "",
+    });
   };
+
+
+
+
+  const handleChange = (e) => {
+    setFormData((p) => ({
+      ...p,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
 
 
 
@@ -205,35 +242,50 @@ export default function Contact() {
       </div>
 
       {/* ================= RIGHT FORM ================= */}
+
+
+
       <motion.form
         onSubmit={handleSubmit}
         className="flex flex-col gap-4 w-full lg:w-[90%]"
         initial={{ opacity: 0, x: 40 }}
         whileInView={{ opacity: 1, x: 0 }}
       >
+ <div>
 
+            {!user ? (
+              <button
+                onClick={signInWithGoogle}
+                className="bg-blue-500 text-white px-5 py-2 rounded"
+              >
+                Login with Google
+              </button>
+            ) : (
+              <p className="text-green-500">
+                Logged in as {user.email}
+              </p>
+            )}
+
+          </div>
         <input
-          name="name"
-          placeholder="Your Name"
-          value={formData.name}
-          onChange={handleChange}
+         name="name"
+  value={formData.name}
+  onChange={handleChange}
+   placeholder="Your Name"
           className="p-3 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-md
           focus:border-[#4bbd97] outline-none"
         />
 
-        <input
-          name="Email"
-          placeholder="Your Email"
-          value={formData.Email}
-          onChange={handleChange}
-          className="p-3 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-md
-          focus:border-[#4bbd97] outline-none"
-        />
+
+
+
+
 
         <select
-          name="service"
-          value={formData.service}
-          onChange={handleChange}
+        name="service"
+  value={formData.service}
+  onChange={handleChange}
+   placeholder="Select Service"
           className="p-3 bg-gray-100 dark:bg-black border border-gray-200 dark:border-white/10 rounded-md
           focus:border-[#4bbd97] outline-none"
         >
@@ -244,23 +296,21 @@ export default function Contact() {
         </select>
 
         <textarea
-          name="Idea"
+          name="message"
           rows={5}
           placeholder="Your Message"
-          value={formData.Idea}
+     value={formData.message}
           onChange={handleChange}
           className="p-3 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-md
           focus:border-[#4bbd97] outline-none"
         />
 
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="bg-[#4bbd97] text-black font-semibold py-3 rounded-md
-          hover:shadow-[0_0_20px_#4bbd97]"
-        >
-          Send Message
-        </motion.button>
+    <motion.button
+              disabled={!user}
+              className="bg-[#4bbd97] text-white py-3 rounded disabled:opacity-50"
+            >
+              Send Message
+            </motion.button>
 
       </motion.form>
 
@@ -269,3 +319,7 @@ export default function Contact() {
 </section>
   );
 }
+
+
+
+
