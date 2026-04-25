@@ -12,6 +12,10 @@ import { Link, Navigate, Route, Routes } from "react-router";
 import All from "./section/all";
 import NotFound from "./section/notfound";
 import  Testimonials from "./section/Testonomials";
+import AuthCallback from "./section/authCallback";
+
+
+
 const App = () => {
   return (
     <>
@@ -26,6 +30,7 @@ const App = () => {
                  <Route path="/project" element={<Project />} />
                     <Route path="/testimonials" element={<Testimonials/>}/>
                     <Route path="/contact" element={<Contact/>}/>
+                    <Route path="/auth/callback" element={<AuthCallback />} />
                     <Route path="/footer" element={<Footer/>}/>
                     <Route path="*" element={<NotFound/>}  />
           </Routes>
